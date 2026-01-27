@@ -15,8 +15,8 @@
 // @run-at       document-idle
 // @grant GM_xmlhttpRequest
 // @connect douyu.com
-// @updateURL    https://raw.githubusercontent.com/lalaxujiaying/ChenTampermonkeyToolkit/ChenTampermonkeyToolkit.js
-// @downloadURL  https://raw.githubusercontent.com/lalaxujiaying/ChenTampermonkeyToolkit/ChenTampermonkeyToolkit.js
+// @updateURL    https://raw.githubusercontent.com/lalaxujiaying/ChenTampermonkeyToolkit/master/ChenTampermonkeyToolkit.js
+// @downloadURL  https://raw.githubusercontent.com/lalaxujiaying/ChenTampermonkeyToolkit/master/ChenTampermonkeyToolkit.js
 // ==/UserScript==
 
 (function() {
