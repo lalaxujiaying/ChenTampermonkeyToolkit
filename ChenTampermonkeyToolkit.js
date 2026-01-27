@@ -8,7 +8,7 @@
 // @match		https://www.douyu.com/directory/myFollow
 // @match		https://www.douyu.com/*
 // @match		https://v.douyu.com/show/*
-// @match		https://www.huya.com/video/u/*
+// @match		https://www.huya.com/video/play/*
 // @match		https://www.huya.com/[0-9].*
 // @match		https://www.youtube.com/watch*
 // @match		https://www.twitch.tv/*
