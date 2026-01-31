@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -10,7 +10,7 @@
 // @match		https://v.douyu.com/show/*
 // @match		https://www.huya.com/video/play/*
 // @match		https://www.huya.com/*
-// @match		https://www.youtube.com/watch?*
+// @match		https://www.youtube.com/watch*
 // @match		https://www.twitch.tv/*
 // @run-at       document-idle
 // @grant GM_xmlhttpRequest
