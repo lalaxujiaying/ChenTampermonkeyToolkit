@@ -10,9 +10,9 @@
 // @match		https://v.douyu.com/show/*
 // @match		https://www.huya.com/video/play/*
 // @match		https://www.huya.com/*
-// @match		https://www.youtube.com/watch*
+// @match		https://www.youtube.com/*
 // @match		https://www.twitch.tv/*
-// @run-at       document-idle
+// @run-at       document-end
 // @grant GM_xmlhttpRequest
 // @connect douyu.com
 // @updateURL    https://raw.githubusercontent.com/lalaxujiaying/ChenTampermonkeyToolkit/master/ChenTampermonkeyToolkit.js
