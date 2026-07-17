@@ -101,11 +101,46 @@
                 const clickedElement = event.target;
                 if(clickedElement.className == 'DyCardBottom-cardTitle'){
                     event.preventDefault();
-                    GetUpidByDouyuRid(clickedElement.getAttribute('rid'));
+                    const rid = clickedElement.getAttribute('rid');
+                    if(event.shiftKey){
+                        OpenyubaWeb(rid);
+                    }
+                    else{
+                        OpenVodsWeb(rid);
+                    }
+                }
+                if(clickedElement.className == 'DyLiveCardTitle-cardTagContainer'){
+                    event.preventDefault();
+                    const rid = GetRidFromCard(clickedElement);
+                    if(rid) OpenyubaWeb(rid);
                 }
             });
+            RenameGameTagsToYuba();
         }
-        function GetUpidByDouyuRid(rid){
+        // 把卡片上的游戏分区标签改名为"鱼吧"，列表是动态渲染的所以用observer持续处理
+        function RenameGameTagsToYuba(){
+            function RenameTags(){
+                document.querySelectorAll('.DyLiveCardTitle-cardTagContainer').forEach(tag => {
+                    if(tag.textContent !== '鱼吧') tag.textContent = '鱼吧';
+                });
+            }
+            const observer = new MutationObserver(RenameTags);
+            observer.observe(document.body, {childList: true, characterData: true, subtree: true});
+            RenameTags();
+        }
+        // 从标签元素向上找到所属卡片，取卡片内cardTitle上的rid
+        function GetRidFromCard(element){
+            let card = element.parentElement;
+            while(card && card !== document.body){
+                const titles = card.querySelectorAll('.DyCardBottom-cardTitle');
+                // 恰好包含一个cardTitle的祖先就是所属卡片，多于一个说明已越过卡片范围
+                if(titles.length === 1) return titles[0].getAttribute('rid');
+                if(titles.length > 1) return null;
+                card = card.parentElement;
+            }
+            return null;
+        }
+        function OpenVodsWeb(rid){
             const api = 'https://www.douyu.com/swf_api/getRoomCloseVod/' + rid;
             GM_xmlhttpRequest({
                 method: "GET",
@@ -119,6 +154,24 @@
                     }
                     const replayUrl = authorUrl.replace('author','author-replay');
                     window.open(replayUrl);
+                }
+            });
+        }
+        function OpenyubaWeb(rid){
+            const api = 'https://www.douyu.com/wgapi/yubanc/api/group/getRoomRelatedGroups?room_id=' + rid + '&relate_type=1';
+            GM_xmlhttpRequest({
+                method: "GET",
+                url: api,
+                onload: function (res) {
+                    const data = JSON.parse(res.responseText).data;
+                    // data是数组，包含主播鱼吧(is_anchor)和分区鱼吧(is_cate)，取主播鱼吧
+                    const anchorGroup = data.find(group => group.is_anchor).group_id;
+
+                    if (!anchorGroup) {
+                        return;
+                    }
+                    const yubaUrl = `https://yuba.douyu.com/discussion/${anchorGroup}/posts`;
+                    window.open(yubaUrl);
                 }
             });
         }
