@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.4
+// @version      1.8.5
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -241,6 +241,11 @@
 
         function closeInputUI() {
             if (inputContainer) {
+                // 归还焦点给页面，避免后续快捷键被 Chrome 原生接管
+                if (document.activeElement && inputContainer.contains(document.activeElement)) {
+                    document.activeElement.blur();
+                }
+                document.body.focus();
                 if (inputContainer._updateInterval) clearInterval(inputContainer._updateInterval);
                 inputContainer.remove();
                 inputContainer = null;
@@ -355,7 +360,7 @@
             const key = e.key;
             const shift = e.shiftKey;
             const ctrl = e.ctrlKey || e.metaKey;
-            if (key.toLowerCase() === CONFIG.triggerKey.toLowerCase() && ctrl && shift) {
+            if (key.toLowerCase() === CONFIG.triggerKey.toLowerCase() && ctrl) {
                 e.preventDefault();
                 if (inputActive) {
                     const inp = document.getElementById('vj-input');
