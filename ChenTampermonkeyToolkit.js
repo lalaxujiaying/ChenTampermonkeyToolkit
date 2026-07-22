@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.3
+// @version      1.8.3a
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -295,9 +295,6 @@
                         showFeedback('❌ 跳转失败，请检查视频', false, 1200);
                     }
                     closeInputUI();
-                } else if (e.key === 'Escape') {
-                    e.preventDefault();
-                    closeInputUI();
                 }
             });
             input.addEventListener('input', () => {
@@ -345,6 +342,14 @@
         function handleKeydown(e) {
             const tag = e.target.tagName.toLowerCase();
             if ((tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) && e.target.id !== 'vj-input') return;
+
+            // ESC 关闭 UI（优先处理，不依赖视频状态）
+            if (inputActive && e.key === 'Escape') {
+                e.preventDefault();
+                closeInputUI();
+                return;
+            }
+
             const video = getVideoElement();
             if (!video) return;
             const key = e.key;
@@ -362,13 +367,7 @@
                 createInputUI(videoEl);
                 return;
             }
-            if (inputActive) {
-                if (e.key === 'Escape') {
-                    e.preventDefault();
-                    closeInputUI();
-                }
-                return;
-            }
+            if (inputActive) return;
             let delta = null;
             if (key === 'ArrowRight' && !shift && !ctrl) delta = CONFIG.stepForward;
             else if (key === 'ArrowLeft' && !shift && !ctrl) delta = -CONFIG.stepBackward;
