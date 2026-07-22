@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.2
+// @version      1.8.3
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -350,7 +350,7 @@
             const key = e.key;
             const shift = e.shiftKey;
             const ctrl = e.ctrlKey || e.metaKey;
-            if (key.toLowerCase() === CONFIG.triggerKey.toLowerCase() && ctrl && !shift) {
+            if (key.toLowerCase() === CONFIG.triggerKey.toLowerCase() && ctrl && shift) {
                 e.preventDefault();
                 if (inputActive) {
                     const inp = document.getElementById('vj-input');
@@ -393,7 +393,7 @@
             if (document.hidden && inputActive) closeInputUI();
         });
         window.addEventListener('beforeunload', () => { closeInputUI(); });
-        console.log('[视频进度跳转助手] 已加载 🎬  按 Ctrl+J 跳转时间，方向键步进');
+        console.log('[视频进度跳转助手] 已加载 🎬  按 Ctrl+Shift+J 跳转时间，方向键步进');
     }
     function DouyuMyFollowPageFunction() {
         const targetUrl = 'douyu.com/directory/myFollow';
