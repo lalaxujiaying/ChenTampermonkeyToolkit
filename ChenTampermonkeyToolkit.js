@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.3a
+// @version      1.8.4
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -387,7 +387,7 @@
             }
         }
 
-        document.addEventListener('keydown', handleKeydown);
+        document.addEventListener('keydown', handleKeydown, true);
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && inputActive) closeInputUI();
         });
