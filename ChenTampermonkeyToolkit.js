@@ -246,11 +246,11 @@
 
         function closeInputUI() {
             if (inputContainer) {
-                // 归还焦点给页面，避免后续快捷键被 Chrome 原生接管
+                // 归还焦点给页面（全屏时归还给全屏元素），避免后续快捷键被 Chrome 原生接管
                 if (document.activeElement && inputContainer.contains(document.activeElement)) {
                     document.activeElement.blur();
                 }
-                document.body.focus();
+                getUIParent().focus();
                 if (inputContainer._updateInterval) clearInterval(inputContainer._updateInterval);
                 inputContainer.remove();
                 inputContainer = null;
