@@ -112,7 +112,7 @@
         //  🎯 配置区域
         // ============================================================
         const CONFIG = {
-            triggerKey: 'g',
+            triggerKey: 'j',
             stepForward: 5,
             stepBackward: 5,
             stepForwardShift: 10,
@@ -349,7 +349,7 @@
             const key = e.key;
             const shift = e.shiftKey;
             const ctrl = e.ctrlKey || e.metaKey;
-            if (key.toLowerCase() === CONFIG.triggerKey.toLowerCase() && !shift && !ctrl) {
+            if (key.toLowerCase() === CONFIG.triggerKey.toLowerCase() && ctrl && !shift) {
                 e.preventDefault();
                 if (inputActive) {
                     const inp = document.getElementById('vj-input');
@@ -386,7 +386,7 @@
             if (document.hidden && inputActive) closeInputUI();
         });
         window.addEventListener('beforeunload', () => { closeInputUI(); });
-        console.log('[视频进度跳转助手] 已加载 🎬  按 G 键跳转时间，方向键步进');
+        console.log('[视频进度跳转助手] 已加载 🎬  按 Ctrl+J 跳转时间，方向键步进');
     }
     function DouyuMyFollowPageFunction() {
         const targetUrl = 'douyu.com/directory/myFollow';
