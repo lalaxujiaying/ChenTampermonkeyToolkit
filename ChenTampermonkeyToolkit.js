@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.5
+// @version      1.8.6
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -217,6 +217,11 @@
         let inputActive = false;
         let inputContainer = null;
 
+        // 全屏时 UI 须挂到全屏元素内，否则会被全屏层遮挡
+        function getUIParent() {
+            return document.fullscreenElement || document.webkitFullscreenElement || document.body;
+        }
+
         function showFeedback(text, isSuccess, duration) {
             if (isSuccess === undefined) isSuccess = true;
             if (duration === undefined) duration = CONFIG.feedbackDuration;
@@ -232,7 +237,7 @@
             el.style.left = '50%';
             el.style.transform = 'translate(-50%, -50%)';
             el.style.border = isSuccess ? '2px solid #51cf66' : '2px solid #ff6b6b';
-            document.body.appendChild(el);
+            getUIParent().appendChild(el);
             feedbackTimer = setTimeout(() => {
                 if (el.parentNode) el.remove();
                 feedbackTimer = null;
@@ -319,7 +324,7 @@
             });
             wrapper.appendChild(input);
             container.appendChild(wrapper);
-            document.body.appendChild(container);
+            getUIParent().appendChild(container);
             inputContainer = container;
             setTimeout(() => { input.focus(); input.select(); }, 50);
             container._input = input;
