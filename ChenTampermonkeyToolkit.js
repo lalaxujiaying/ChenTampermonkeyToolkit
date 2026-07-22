@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.1
+// @version      1.8.2
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -172,6 +172,7 @@
             if (input.includes('.')) {
                 const parts = input.split('.').map(Number);
                 if (parts.some(isNaN)) return null;
+                if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
                 if (parts.length === 2) return parts[0] * 60 + parts[1];
                 return null;
             }
@@ -271,7 +272,7 @@
             const input = document.createElement('input');
             input.id = 'vj-input';
             input.type = 'text';
-            input.placeholder = '输入时间跳转 (如: 25 / 0.30 / 1:30)';
+            input.placeholder = '输入时间 (如: 25 / 0.30 / 1:30 / 1.1.1=1h1m1s)';
             input.autofocus = true;
             input.spellcheck = false;
             input.autocomplete = 'off';
@@ -361,7 +362,13 @@
                 createInputUI(videoEl);
                 return;
             }
-            if (inputActive) return;
+            if (inputActive) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeInputUI();
+                }
+                return;
+            }
             let delta = null;
             if (key === 'ArrowRight' && !shift && !ctrl) delta = CONFIG.stepForward;
             else if (key === 'ArrowLeft' && !shift && !ctrl) delta = -CONFIG.stepBackward;
