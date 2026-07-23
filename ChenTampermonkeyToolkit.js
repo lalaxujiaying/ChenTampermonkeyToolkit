@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.7b
+// @version      1.8.8
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -12,6 +12,7 @@
 // @match		https://www.huya.com/*
 // @match		https://www.youtube.com/*
 // @match		https://www.twitch.tv/*
+// @match		https://live.bilibili.com/*
 // @run-at       document-end
 // @grant GM_xmlhttpRequest
 // @connect douyu.com
@@ -27,6 +28,7 @@
     Main();
     function Main(){
         FullscreenVideo();
+        FullscreenVideo_BiliBili();
         DouyuMyFollowPageFunction();
         VideoProgressJumper();
     }
@@ -113,8 +115,8 @@
         // ============================================================
         const CONFIG = {
             triggerKey: 'j',
-            stepForwardShift: 5,
-            stepBackwardShift: 5,
+            stepForwardShift: 2,
+            stepBackwardShift: 2,
             stepForwardCtrl: 10,
             stepBackwardCtrl: 10,
             stepForwardShiftAndCtrl: 30,
@@ -482,6 +484,19 @@
                     }
                     const yubaUrl = `https://yuba.douyu.com/discussion/${anchorGroup}/posts`;
                     window.open(yubaUrl);
+                }
+            });
+        }
+    }
+    function FullscreenVideo_BiliBili() { 
+        const targetUrl = 'live.bilibili.com';
+        if (currentDomain.includes(targetUrl)) {
+            const player = document.querySelector("#web-player-controller-wrap-el")
+            player.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+            const fullButton = player.querySelector("div > div > div.right-area.svelte-4rgwwa > div:nth-child(1) > div > span")
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.shiftKey && !e.ctrlKey) {
+                    if (fullButton) fullButton.click();
                 }
             });
         }
