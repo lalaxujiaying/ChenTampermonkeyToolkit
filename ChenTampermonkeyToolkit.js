@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.8
+// @version      1.9
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -492,10 +492,26 @@
         const targetUrl = 'live.bilibili.com';
         if (currentDomain.includes(targetUrl)) {
             const player = document.querySelector("#web-player-controller-wrap-el")
-            player.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
-            const fullButton = player.querySelector("div > div > div.right-area.svelte-4rgwwa > div:nth-child(1) > div > span")
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && e.shiftKey && !e.ctrlKey) {
+                    const rect = player.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    // 派发 mouseenter 和 mousemove 事件（B站监听的是 mousemove）
+                    const moveEvent = new MouseEvent('mousemove', {
+                        view: window,
+                        bubbles: true,
+                        cancelable: true,
+                        clientX: centerX,
+                        clientY: centerY,
+                        pageX: centerX,
+                        pageY: centerY
+                    });
+                    player.dispatchEvent(moveEvent);
+                    player.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+                    const fullButton = player.querySelector("div > div > div.right-area.svelte-4rgwwa > div:nth-child(1) > div > span")
+                    console.log(fullButton)
                     if (fullButton) fullButton.click();
                 }
             });
