@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.8.7a
+// @version      1.8.7b
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -113,12 +113,12 @@
         // ============================================================
         const CONFIG = {
             triggerKey: 'j',
-            stepForward: 5,
-            stepBackward: 5,
-            stepForwardShift: 10,
-            stepBackwardShift: 10,
-            stepForwardCtrl: 30,
-            stepBackwardCtrl: 30,
+            stepForwardShift: 5,
+            stepBackwardShift: 5,
+            stepForwardCtrl: 10,
+            stepBackwardCtrl: 10,
+            stepForwardShiftAndCtrl: 30,
+            stepBackwardShiftAndCtrl: 30,
             feedbackDuration: 1500,
             inputStyle: {
                 backgroundColor: 'rgba(0, 0, 0, 0.75)',
@@ -379,8 +379,8 @@
             }
             if (inputActive) return;
             let delta = null;
-            if (key === 'ArrowRight' && !shift && !ctrl) delta = CONFIG.stepForward;
-            else if (key === 'ArrowLeft' && !shift && !ctrl) delta = -CONFIG.stepBackward;
+            if (key === 'ArrowRight' && shift && ctrl) delta = CONFIG.stepForwardShiftAndCtrl;
+            else if (key === 'ArrowLeft' && shift && ctrl) delta = -CONFIG.stepBackwardShiftAndCtrl;
             else if (key === 'ArrowRight' && shift && !ctrl) delta = CONFIG.stepForwardShift;
             else if (key === 'ArrowLeft' && shift && !ctrl) delta = -CONFIG.stepBackwardShift;
             else if (key === 'ArrowRight' && ctrl && !shift) delta = CONFIG.stepForwardCtrl;
