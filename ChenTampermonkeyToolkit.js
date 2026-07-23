@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChenTampermonkeyToolkit
 // @namespace    http://tampermonkey.net/
-// @version      1.9
+// @version      1.9.1
 // @description  自用chrome网页脚本工具
 // @author       Chen
 // @match		https://www.bilibili.com/video/*
@@ -500,7 +500,6 @@
 
                     // 派发 mouseenter 和 mousemove 事件（B站监听的是 mousemove）
                     const moveEvent = new MouseEvent('mousemove', {
-                        view: window,
                         bubbles: true,
                         cancelable: true,
                         clientX: centerX,
